@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.vite/
+coverage/
+output/
+*.log
+*.zip
+*.pid
+.tmp-*/
+Instructions.txt
+.DS_Store
+Thumbs.db
+BUILD_RECEIPT_MANIFEST_NOTEBOOKY.md
+BUILD_LOG_MANIFEST_NOTEBOOKY.txt
