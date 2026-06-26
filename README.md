@@ -2,17 +2,33 @@
 
 **The freedom to write anything. The obligation to write it American.**
 
-Manifest Notebooky is a satirical patriotic notebook app built for Summer into
-AI Week 2: Independence Engines. It gives the user a blank page, then
-immediately overreaches by forcing ordinary notes through Mandatory Murican
-Autocorrect.
+**Live demo:** https://bluntforceriot.github.io/manifest-notebooky/
 
-## The Joke
+![Manifest Notebooky cover art](docs/manifest-notebooky-cover.png)
+
+Manifest Notebooky is a satirical patriotic notebook app built for **Summer into
+AI Week 2: Independence Engines**. It gives the user a blank page, then
+immediately overreaches by forcing ordinary notes through **Mandatory Murican
+Autocorrect**.
+
+You can write anything: a grocery list, a plan, a complaint, a manifesto, or one
+suspiciously long note about snacks. The app then demonstrates exactly why
+freedom becomes funny, fragile, and annoying when software decides it knows what
+you meant.
+
+The cover image is promotional documentation art, not a runtime app asset.
+Runtime visuals are generated with HTML/CSS and local TypeScript.
+
+## Why It Exists
 
 A notebook is an Independence Engine because a blank page lets the user build
-anything: a grocery list, a plan, a complaint, a manifesto, or one suspiciously
-long note about snacks. Manifest Notebooky then complicates that freedom by
-installing hostile red-white-blue office software in the page itself.
+anything. Blank pages let people plan, remember, complain, organize, revise,
+argue, doodle, and write freely.
+
+Manifest Notebooky satirizes software overreach by forcing that freedom through
+Mandatory Murican Autocorrect. It is a joke about freedom-talk, productivity
+software, patriotic action branding, and the dark-pattern settings that turn
+simple tools into tiny paperwork regimes.
 
 Mandatory Murican Autocorrect is never off. The lowest setting is simply
 `Mandatory Murican Autocorrect: ON`. Users can upgrade to `MAXIMUM MURICAN`, but
@@ -48,7 +64,7 @@ Then open the local Vite URL shown in the terminal.
 
 ## Play Online
 
-Once GitHub Pages finishes deploying, Manifest Notebooky will be playable at:
+Manifest Notebooky is playable in the browser at:
 
 https://bluntforceriot.github.io/manifest-notebooky/
 
