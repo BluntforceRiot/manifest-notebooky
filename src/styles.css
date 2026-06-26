@@ -110,7 +110,7 @@ textarea {
   border-radius: 10px;
   padding: 0.9rem 1rem;
   background:
-    linear-gradient(115deg, rgba(7, 16, 36, 0.95) 0 55%, rgba(213, 65, 61, 0.88) 55% 69%, rgba(246, 201, 87, 0.9) 69% 74%, rgba(36, 78, 154, 0.92) 74% 100%),
+    linear-gradient(115deg, rgba(7, 16, 36, 0.96) 0 48%, rgba(213, 65, 61, 0.92) 48% 63%, rgba(255, 248, 229, 0.94) 63% 69%, rgba(36, 78, 154, 0.94) 69% 100%),
     var(--navy-2);
   box-shadow: 0 18px 46px rgba(0, 0, 0, 0.32);
 }
@@ -128,7 +128,10 @@ textarea {
 
 .eyebrow {
   margin: 0 0 0.25rem;
-  color: var(--gold);
+  color: #ffffff;
+  text-shadow:
+    1px 1px 0 rgba(213, 65, 61, 0.75),
+    2px 2px 0 rgba(36, 78, 154, 0.65);
   font-size: 0.72rem;
   font-weight: 950;
   letter-spacing: 0.08em;
@@ -144,11 +147,13 @@ p {
 
 .app-header h1 {
   margin: 0;
-  color: #fff5cf;
+  color: #ffffff;
   font-size: clamp(2rem, 4vw, 4.6rem);
   line-height: 0.88;
   text-transform: uppercase;
-  text-shadow: 3px 3px 0 rgba(213, 65, 61, 0.75);
+  text-shadow:
+    3px 3px 0 rgba(213, 65, 61, 0.9),
+    6px 6px 0 rgba(36, 78, 154, 0.78);
 }
 
 .app-header p:last-child {
@@ -165,11 +170,11 @@ p {
   height: 118px;
   flex: 0 0 auto;
   place-content: center;
-  border: 5px double #fff1bd;
+  border: 5px double #ffffff;
   border-radius: 50%;
-  color: #27180b;
+  color: #10214a;
   background:
-    radial-gradient(circle, #fff4c8 0 43%, #f6c957 44% 67%, #244e9a 68% 100%);
+    radial-gradient(circle, #ffffff 0 37%, #d5413d 38% 56%, #ffffff 57% 68%, #244e9a 69% 100%);
   text-align: center;
   transform: rotate(8deg);
 }
@@ -185,9 +190,10 @@ p {
 }
 
 .seal b {
-  color: #fff4d8;
+  color: #ffffff;
   font-size: 0.7rem;
   text-transform: uppercase;
+  text-shadow: 1px 1px 0 #10214a;
 }
 
 .sidebar {
