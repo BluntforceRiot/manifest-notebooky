@@ -1,6 +1,6 @@
 # Manifest Notebooky Package Verification
 
-Generated: 2026-06-26 16:30 ET
+Generated: 2026-06-26 17:05 ET
 
 This verifies the public review archive for cross-platform extraction. The
 archive is built with `npm run package:review`, which writes POSIX-style ZIP
@@ -9,16 +9,14 @@ entries and rejects unsafe or non-portable paths before and after writing.
 ## Archive
 
 - Package: `manifest-notebooky-review.zip`
-- ZIP SHA-256: printed by the final `npm run package:review` run after this
-  file is embedded. A ZIP cannot contain its own byte-exact final hash without
-  changing that hash.
+- Final ZIP SHA-256: `058174f65007643cd2e810221989d87d8c23509f509c46056f5ba85dbaefff44`
 - File entry count: 17
 - Total central-directory entries: 21, including 4 clean directory entries
 - Backslash paths: 0
 
 ## Required Cold-Extract Checks
 
-- Cold extraction folder: `.tmp-package-cold-extract`
+- Cold extraction folder: `.tmp-package-cold-extract-20260626T1700`
 - `npm ci`: PASS
 - `npm run typecheck`: PASS
 - `npm run build`: PASS

@@ -72,7 +72,8 @@ console.log(
   JSON.stringify(
     {
       zipPath,
-      entries: verification.entryCount,
+      fileEntries: verification.fileEntryCount,
+      totalEntries: verification.totalEntryCount,
       backslashPaths: verification.backslashPaths,
       sha256: verification.sha256,
     },
@@ -153,7 +154,8 @@ function validateEntries(entries) {
 async function verifyZip(archivePath) {
   const zipBuffer = await readFile(archivePath);
   const loadedZip = await JSZip.loadAsync(zipBuffer);
-  const entries = Object.keys(loadedZip.files).filter((entry) => !loadedZip.files[entry].dir);
+  const entries = Object.keys(loadedZip.files);
+  const fileEntries = entries.filter((entry) => !loadedZip.files[entry].dir);
   validateEntries(entries);
 
   const backslashPaths = entries.filter((entry) => entry.includes("\\")).length;
@@ -162,7 +164,8 @@ async function verifyZip(archivePath) {
   }
 
   return {
-    entryCount: entries.length,
+    fileEntryCount: fileEntries.length,
+    totalEntryCount: entries.length,
     backslashPaths,
     sha256: await sha256File(archivePath),
   };
