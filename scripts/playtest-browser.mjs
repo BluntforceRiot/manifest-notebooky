@@ -37,6 +37,37 @@ assertIncludes(corrected, "color", "British spelling replacement");
 assertIncludes(corrected, "Crown bite", "Crown replacement");
 assertIncludes(corrected, "freedom gremlin", "problem replacement");
 
+await editor.fill("this doesnt work because it looks like a plain text sheet and nothing corrected.");
+await editor.press(" ");
+await page.waitForTimeout(900);
+const complaintText = await editor.inputValue();
+assertIncludes(complaintText, "requires liberty maintenance", "public complaint phrase replacement");
+assertIncludes(complaintText, "eagle bureau has been summoned", "nothing corrects phrase replacement");
+assertIncludes(complaintText, "ordinary parchment zone", "plain text sheet phrase replacement");
+assertExcludes(complaintText, "this doesnt work", "source complaint phrase should be replaced");
+assertExcludes(complaintText, "nothing corrected", "source correction complaint should be replaced");
+assertExcludes(complaintText, "plain text sheet", "source plain text sheet phrase should be replaced");
+await editor.blur();
+await page.waitForTimeout(900);
+const afterBlurComplaintText = await editor.inputValue();
+if (afterBlurComplaintText !== complaintText) {
+  throw new Error(`Autocorrect should be stable after blur.\nBefore: ${complaintText}\nAfter: ${afterBlurComplaintText}`);
+}
+
+await page.getByRole("button", { name: "FIELD TEST AUTOCORRECT" }).click();
+await page.waitForTimeout(900);
+const demoCorrectionText = await editor.inputValue();
+assertIncludes(demoCorrectionText, "requires liberty maintenance", "demo complaint phrase replacement");
+assertIncludes(demoCorrectionText, "ordinary parchment zone", "demo plain text sheet replacement");
+assertIncludes(demoCorrectionText, "the eagle bureau has been summoned", "demo nothing corrected replacement");
+assertExcludes(demoCorrectionText, "plain text sheet", "demo should not leave source plain text sheet");
+await editor.blur();
+await page.waitForTimeout(900);
+const afterBlurDemoText = await editor.inputValue();
+if (afterBlurDemoText !== demoCorrectionText) {
+  throw new Error(`Demo autocorrect should be stable after blur.\nBefore: ${demoCorrectionText}\nAfter: ${afterBlurDemoText}`);
+}
+
 await page.locator("#theme-select").selectOption("war-room-grid");
 await expectVisibleText("War Room Graph Paper");
 for (const theme of [
@@ -181,5 +212,11 @@ async function assertNoHorizontalOverflow() {
 function assertIncludes(text, expected, label) {
   if (!text.toLowerCase().includes(expected.toLowerCase())) {
     throw new Error(`Missing ${label}: ${expected}\nActual: ${text}`);
+  }
+}
+
+function assertExcludes(text, unexpected, label) {
+  if (text.toLowerCase().includes(unexpected.toLowerCase())) {
+    throw new Error(`Unexpected ${label}: ${unexpected}\nActual: ${text}`);
   }
 }

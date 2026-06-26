@@ -505,6 +505,20 @@ input {
   font-weight: 950;
 }
 
+.try-copy {
+  margin: 0.45rem 0 0.6rem;
+  border-left: 4px solid var(--gold);
+  padding: 0.45rem 0.55rem;
+  color: #e9f1ff;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.try-copy b {
+  color: #ffe084;
+}
+
 .max-toggle {
   width: 100%;
   margin-top: 0.55rem;

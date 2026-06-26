@@ -124,8 +124,17 @@ const lockedMessages = [
   "This is what user choice looks like at full volume.",
 ];
 
+const demoAutocorrectText =
+  "hello I think this doesnt work because it looks like a plain text sheet and nothing corrected with tea, colour, bug, fireworks, and coffee.";
+
 const baselineReplacements: Replacement[] = [
   phrase("this is fine", "the republic remains suspiciously intact"),
+  phrase("this does not work", "this requires liberty maintenance", ["problem"]),
+  phrase("this doesn't work", "this requires liberty maintenance", ["problem"]),
+  phrase("this doesnt work", "this requires liberty maintenance", ["problem"]),
+  phrase("nothing corrects", "the eagle bureau has been summoned", ["problem"]),
+  phrase("nothing corrected", "the eagle bureau has been summoned", ["problem"]),
+  phrase("plain text sheet", "ordinary parchment zone"),
   phrase("good morning", "rise and deploy, citizen"),
   phrase("good night", "stand down, liberty unit"),
   phrase("I am hungry", "my ration bay demands democracy"),
@@ -535,7 +544,7 @@ function renderApp(): void {
           <input id="title-input" value="${escapeAttr(page.title)}" placeholder="Name this territory of thought..." />
           <div id="paper-sheet" class="paper-sheet ${page.theme}">
             <div class="paper-badge">Mandatory Murican Autocorrect: ON</div>
-            <textarea id="body-input" spellcheck="true" placeholder="Begin your manifesto, grocery convoy, or constitutionally suspicious to-do list..."></textarea>
+            <textarea id="body-input" spellcheck="true" placeholder="Try: hello, this doesnt work, plain text sheet, nothing corrected, tea, colour, bug, fireworks..."></textarea>
             <div id="stamp-layer" class="stamp-layer">${renderStamps(page)}</div>
           </div>
           <p id="save-status" class="save-status">Secured in the National Archives-ish.</p>
@@ -545,6 +554,8 @@ function renderApp(): void {
         <section class="panel autocorrect-panel">
           <h2>Mandatory Murican Autocorrect</h2>
           <p class="mode-status">${state.maximumMurican ? "MAXIMUM MURICAN: ACTIVE" : "Mandatory Murican Autocorrect: ON"}</p>
+          <p class="try-copy">Type in the big paper sheet. Try <b>hello</b>, <b>this doesnt work</b>, or <b>nothing corrected</b>.</p>
+          <button data-action="demo-autocorrect">FIELD TEST AUTOCORRECT</button>
           <p id="cooldown-text" class="cooldown-text">${cooldownText()}</p>
           <button class="max-toggle ${state.maximumMurican ? "armed" : ""}" data-action="toggle-maximum">${maximumButtonText()}</button>
         </section>
@@ -683,6 +694,7 @@ function handleClick(event: MouseEvent): void {
   if (action === "rename-page") renamePage();
   if (action === "duplicate-page") duplicatePage();
   if (action === "delete-page") deletePage();
+  if (action === "demo-autocorrect") demoAutocorrect();
   if (action === "toggle-maximum") toggleMaximum();
   if (action === "add-stamp") addStamp(state.selectedStamp);
   if (action === "random-stamp") addStamp(stampTexts[Math.floor(Math.random() * stampTexts.length)]);
@@ -767,6 +779,7 @@ function queueAutocorrect(): void {
 }
 
 function applyAutocorrect(_reason: string): void {
+  window.clearTimeout(correctionTimer);
   const textarea = document.querySelector<HTMLTextAreaElement>("#body-input");
   if (!textarea) return;
   const raw = textarea.value;
@@ -788,6 +801,7 @@ function applyAutocorrect(_reason: string): void {
 function transformText(input: string, maximum: boolean): TransformResult {
   const replacements = maximum ? allMaximum : allBaseline;
   const stats = { total: 0, british: 0, crown: 0, problem: 0, explosion: 0 };
+  const inserted: string[] = [];
   let text = input;
   for (const replacement of replacements) {
     const pattern =
@@ -807,8 +821,13 @@ function transformText(input: string, maximum: boolean): TransformResult {
       if (replacement.tags?.includes("crown")) stats.crown += 1;
       if (replacement.tags?.includes("problem")) stats.problem += 1;
       if (replacement.tags?.includes("explosion")) stats.explosion += 1;
-      return prefix + preserveCapitalization(phraseMatch, replacement.target);
+      const token = `\uE000${inserted.length}\uE001`;
+      inserted.push(preserveCapitalization(phraseMatch, replacement.target));
+      return prefix + token;
     });
+  }
+  for (const [index, value] of inserted.entries()) {
+    text = text.split(`\uE000${index}\uE001`).join(value);
   }
   return { text, ...stats };
 }
@@ -915,6 +934,15 @@ function toggleMaximum(): void {
     return;
   }
   openDowngradeModal();
+}
+
+function demoAutocorrect(): void {
+  activePage().body = demoAutocorrectText;
+  touchPage();
+  bindEditorValue();
+  applyAutocorrect("demo");
+  renderSidePanels();
+  saveStateNow();
 }
 
 function openDowngradeModal(): void {
