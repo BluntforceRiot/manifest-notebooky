@@ -67,6 +67,64 @@ const afterBlurDemoText = await editor.inputValue();
 if (afterBlurDemoText !== demoCorrectionText) {
   throw new Error(`Demo autocorrect should be stable after blur.\nBefore: ${demoCorrectionText}\nAfter: ${afterBlurDemoText}`);
 }
+assertIncludes(demoCorrectionText, "freedom fries", "demo french fries replacement");
+assertExcludes(demoCorrectionText, "french fries", "demo should not leave source french fries");
+
+await editor.fill("french fries and french toast came from France, Canada, Mexico, Germany, Italy, Spain, China, Japan, Russia, Ireland, and Australia.");
+await editor.press(" ");
+await page.waitForTimeout(900);
+const countryText = await editor.inputValue();
+assertIncludes(countryText, "fries and freedom toast", "baseline and should remain unchanged");
+assertIncludes(countryText, "Green liberty zone, and Southern liberty zone", "second baseline and should remain unchanged");
+assertIncludes(countryText, "freedom fries", "French fries replacement");
+assertIncludes(countryText, "freedom toast", "French toast replacement");
+assertIncludes(countryText, "Freedomland", "France replacement");
+assertIncludes(countryText, "North liberty zone", "Canada replacement");
+assertIncludes(countryText, "South liberty zone", "Mexico replacement");
+assertIncludes(countryText, "Pretzel liberty zone", "Germany replacement");
+assertIncludes(countryText, "Pasta liberty zone", "Italy replacement");
+assertIncludes(countryText, "Sunny liberty zone", "Spain replacement");
+assertIncludes(countryText, "Far-east liberty zone", "China replacement");
+assertIncludes(countryText, "Pacific liberty zone", "Japan replacement");
+assertIncludes(countryText, "Cold liberty zone", "Russia replacement");
+assertIncludes(countryText, "Green liberty zone", "Ireland replacement");
+assertIncludes(countryText, "Southern liberty zone", "Australia replacement");
+for (const foreignTerm of ["french fries", "french toast", "France", "Canada", "Mexico", "Germany", "Italy", "Spain", "China", "Japan", "Russia", "Ireland", "Australia"]) {
+  assertExcludes(countryText, foreignTerm, `foreign term should be rewritten: ${foreignTerm}`);
+}
+await editor.blur();
+await page.waitForTimeout(900);
+const afterBlurCountryText = await editor.inputValue();
+if (afterBlurCountryText !== countryText) {
+  throw new Error(`Country autocorrect should be stable after blur.\nBefore: ${countryText}\nAfter: ${afterBlurCountryText}`);
+}
+
+await editor.fill("french Canadian Mexican German Italian Spanish Chinese Japanese Russian Irish Australian British English Britain England.");
+await editor.press(" ");
+await page.waitForTimeout(900);
+const adjectiveText = await editor.inputValue();
+assertIncludes(adjectiveText, "freedom-style", "standalone French adjective replacement");
+assertIncludes(adjectiveText, "North-liberty", "Canadian adjective replacement");
+assertIncludes(adjectiveText, "South-liberty", "Mexican adjective replacement");
+assertIncludes(adjectiveText, "Pretzel-liberty", "German adjective replacement");
+assertIncludes(adjectiveText, "Pasta-liberty", "Italian adjective replacement");
+assertIncludes(adjectiveText, "Sunny-liberty", "Spanish adjective replacement");
+assertIncludes(adjectiveText, "Far-east-liberty", "Chinese adjective replacement");
+assertIncludes(adjectiveText, "Pacific-liberty", "Japanese adjective replacement");
+assertIncludes(adjectiveText, "Cold-liberty", "Russian adjective replacement");
+assertIncludes(adjectiveText, "Green-liberty", "Irish adjective replacement");
+assertIncludes(adjectiveText, "Southern-liberty", "Australian adjective replacement");
+assertIncludes(adjectiveText, "Crown-ish", "British/English adjective replacement");
+assertIncludes(adjectiveText, "Crown island", "Britain/England replacement");
+for (const foreignTerm of ["french", "Canadian", "Mexican", "German", "Italian", "Spanish", "Chinese", "Japanese", "Russian", "Irish", "Australian", "British", "English", "Britain", "England"]) {
+  assertExcludes(adjectiveText, foreignTerm, `foreign adjective/name should be rewritten: ${foreignTerm}`);
+}
+await editor.blur();
+await page.waitForTimeout(900);
+const afterBlurAdjectiveText = await editor.inputValue();
+if (afterBlurAdjectiveText !== adjectiveText) {
+  throw new Error(`Country adjective autocorrect should be stable after blur.\nBefore: ${adjectiveText}\nAfter: ${afterBlurAdjectiveText}`);
+}
 
 await page.locator("#theme-select").selectOption("war-room-grid");
 await expectVisibleText("War Room Graph Paper");
@@ -122,6 +180,8 @@ const maximumText = await editor.inputValue();
 assertIncludes(maximumText, "on this blessed operational date", "maximum today replacement");
 assertIncludes(maximumText, "the republic requires me to", "maximum phrase replacement");
 assertIncludes(maximumText, "construct liberty infrastructure", "maximum build replacement");
+assertIncludes(maximumText, "reasons and the entire republic", "maximum mode should leave and unchanged");
+assertExcludes(maximumText, "and also freedom-wise", "maximum mode should not rewrite and");
 await editor.fill("");
 await editor.evaluate((element) => {
   const textarea = element;
