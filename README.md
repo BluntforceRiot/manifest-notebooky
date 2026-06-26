@@ -46,6 +46,15 @@ npm run dev
 
 Then open the local Vite URL shown in the terminal.
 
+## Play Online
+
+Once GitHub Pages finishes deploying, Manifest Notebooky will be playable at:
+
+https://bluntforceriot.github.io/manifest-notebooky/
+
+This is a static browser demo. Players do not need to download the repository
+for normal play.
+
 ## Verification
 
 ```sh
@@ -57,6 +66,15 @@ npm run playtest
 ```
 
 `npm run playtest` expects the preview server at `http://127.0.0.1:4175/`.
+
+## GitHub Pages
+
+This repo includes `.github/workflows/deploy.yml`. To publish through GitHub:
+
+1. Push to `main`.
+2. In the GitHub repository settings, set Pages to deploy from GitHub Actions if
+   it is not already enabled.
+3. Wait for the `Deploy GitHub Pages` workflow to finish.
 
 ## Privacy / Hosting Notes
 
